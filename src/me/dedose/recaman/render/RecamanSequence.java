@@ -1,6 +1,6 @@
-package me.dedose.rechamann.render;
+package me.dedose.recaman.render;
 
-import me.dedose.rechamann.Main;
+import me.dedose.recaman.Main;
 
 import java.awt.geom.Arc2D;
 import java.util.ArrayList;
@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class RecamannSequence implements Sequence{
+public class RecamanSequence implements Sequence{
 
     @Override
     public int[] a_n(int steps) {
@@ -24,6 +24,12 @@ public class RecamannSequence implements Sequence{
         return sequence;
     }
 
+    @Override
+    public int a_n_exact(int steps) {
+        int[] sequence = a_n(steps);
+        return sequence[sequence.length-1];
+    }
+
     private boolean contains(int[] array, int num){
         for (int i : array) {
             if(i == num) return true;
@@ -34,19 +40,16 @@ public class RecamannSequence implements Sequence{
     @Override
     public List<Arc2D.Double> curves(int[] sequence, double bounds_x, double bounds_y) {
         List<Arc2D.Double> curves = new ArrayList<>();
-        Map<Double, Double> yOffsets = new HashMap<>();
         double totalWidth = 0;
         double maxHeight = 0;
         for (int i = 0; i < sequence.length; i++) {
             double x = (Main.WIDTH - bounds_x)/2 + sequence[i]*50;
-            if(!yOffsets.containsKey(x)) yOffsets.put(x, 0D);
-            double y = bounds_y/2;
-            double width = (sequence[i+1] - sequence[i])*50;
+            double y = Main.HEIGHT/2;
+            double width = (a_n_exact(i+1) - sequence[i])*50;
             totalWidth += width;
-            double height = yOffsets.get(x) + (i % 2 == 0 ? -50 : 50);
-            yOffsets.put(x, height);
+            double height = (i % 2 == 0 ? -width : width);
             maxHeight = Math.max(height, maxHeight);
-            curves.add(new Arc2D.Double(x, y, width, height, 0, 180, Arc2D.OPEN));
+            curves.add(new Arc2D.Double(x, y, width, Math.abs(height), 0, (height < 0) ? -180 : 180, Arc2D.OPEN));
         }
 
         double xRatio = totalWidth > bounds_x ? bounds_x/totalWidth : 1;

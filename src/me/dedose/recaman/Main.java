@@ -1,12 +1,13 @@
-package me.dedose.rechamann;
+package me.dedose.recaman;
 
-import me.dedose.rechamann.handlers.Handler;
-import me.dedose.rechamann.handlers.RenderObject;
-import me.dedose.rechamann.render.RecamannSequence;
+import me.dedose.recaman.handlers.Handler;
+import me.dedose.recaman.handlers.RenderObject;
+import me.dedose.recaman.render.LineRender;
+import me.dedose.recaman.render.RecamanSequence;
 
 import java.awt.*;
+import java.awt.geom.Arc2D;
 import java.awt.image.BufferStrategy;
-import java.util.Arrays;
 
 public class Main extends Canvas implements Runnable {
 
@@ -22,8 +23,7 @@ public class Main extends Canvas implements Runnable {
         this.handler = new Handler();
 
         new Window(WIDTH, HEIGHT, "test", this);
-
-        System.out.println(Arrays.toString(new RecamannSequence().a_n(12)));;
+        handler.addObject(new LineRender(new RecamanSequence()));
     }
 
     public synchronized void start(){

@@ -1,4 +1,4 @@
-package me.dedose.rechamann;
+package me.dedose.recaman;
 
 import javax.swing.*;
 import java.awt.*;

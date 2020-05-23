@@ -1,4 +1,4 @@
-package me.dedose.rechamann.handlers;
+package me.dedose.recaman.handlers;
 
 import java.awt.*;
 
