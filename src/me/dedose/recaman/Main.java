@@ -11,11 +11,8 @@ import java.awt.image.BufferStrategy;
 
 public class Main extends Canvas implements Runnable {
 
-//    public static final int WIDTH = Toolkit.getDefaultToolkit().getScreenSize().width;
-//    public static final int HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().height;
-
-    public static final int WIDTH = 1920;
-    public static final int HEIGHT = 1080;
+    public static final int WIDTH = Toolkit.getDefaultToolkit().getScreenSize().width;
+    public static final int HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().height;
 
     private boolean running = false;
 

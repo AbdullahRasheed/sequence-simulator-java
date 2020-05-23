@@ -19,7 +19,8 @@ public class LineRender extends RenderObject {
     @Override
     public void render(Graphics2D g) {
         g.setColor(Color.black);
-        for (Arc2D.Double arc : sequence.curves(sequence.a_n(12), Main.WIDTH-200, Main.HEIGHT-200)) {
+        g.setStroke(new BasicStroke(2));
+        for (Arc2D.Double arc : sequence.curves(sequence.a_n(72001), Main.WIDTH-200, Main.HEIGHT-200)) {
             g.draw(arc);
         }
     }

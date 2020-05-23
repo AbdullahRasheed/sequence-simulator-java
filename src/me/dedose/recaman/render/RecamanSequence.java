@@ -47,10 +47,11 @@ public class RecamanSequence implements Sequence{
             double y = Main.HEIGHT/2;
             double width = (a_n_exact(i+1) - sequence[i])*50;
             totalWidth += width;
-            double height = (i % 2 == 0 ? -width : width);
+            double height = (i % 2 == 0 ? -Math.abs(width) : Math.abs(width));
             maxHeight = Math.max(Math.abs(height), maxHeight);
-            curves.add(new Arc2D.Double(x, y - Math.abs(height)/2, width, Math.abs(height), 0, (height < 0) ? -180 : 180, Arc2D.OPEN));
+            curves.add(new Arc2D.Double(width < 0 ? x + width : x, y - Math.abs(height)/2, Math.abs(width), Math.abs(height), 0, (height < 0) ? -180 : 180, Arc2D.OPEN));
         }
+        System.out.println(totalWidth);
 
         double xRatio = totalWidth > bounds_x ? bounds_x/totalWidth : 1;
         for (Arc2D.Double curve : curves) {
