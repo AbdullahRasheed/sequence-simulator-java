@@ -48,17 +48,16 @@ public class RecamanSequence implements Sequence{
             double width = (a_n_exact(i+1) - sequence[i])*50;
             totalWidth += width;
             double height = (i % 2 == 0 ? -width : width);
-            maxHeight = Math.max(height, maxHeight);
-            curves.add(new Arc2D.Double(x, y, width, Math.abs(height), 0, (height < 0) ? -180 : 180, Arc2D.OPEN));
+            maxHeight = Math.max(Math.abs(height), maxHeight);
+            curves.add(new Arc2D.Double(x, y - Math.abs(height)/2, width, Math.abs(height), 0, (height < 0) ? -180 : 180, Arc2D.OPEN));
         }
 
         double xRatio = totalWidth > bounds_x ? bounds_x/totalWidth : 1;
-        double yRatio = maxHeight > bounds_y ? bounds_y/maxHeight : 1;
         for (Arc2D.Double curve : curves) {
             curve.x *= xRatio;
             curve.width *= xRatio;
-            curve.y *= yRatio;
-            curve.height *= yRatio;
+            curve.y *= xRatio;
+            curve.height *= xRatio;
         }
 
         return curves;
