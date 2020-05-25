@@ -2,36 +2,61 @@ package me.dedose.recaman;
 
 import me.dedose.recaman.handlers.Handler;
 import me.dedose.recaman.handlers.RenderObject;
+import me.dedose.recaman.listeners.MouseListener;
+import me.dedose.recaman.listeners.MouseMotionListener;
+import me.dedose.recaman.listeners.MouseWheelListener;
 import me.dedose.recaman.render.LineRender;
 import me.dedose.recaman.render.RecamanSequence;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Arc2D;
 import java.awt.image.BufferStrategy;
 
 public class Main extends Canvas implements Runnable {
 
+    /**
+     * Initializing screen width and height
+     */
     public static final int WIDTH = Toolkit.getDefaultToolkit().getScreenSize().width;
     public static final int HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().height;
 
+    /**
+     * Thread state
+     */
     private boolean running = false;
 
+    /**
+     * Locally defined classes
+     */
     private Thread thread;
     private Handler handler;
 
+    /**
+     * Init
+     */
     public Main(){
         this.handler = new Handler();
+        this.addMouseListener(new MouseListener());
+        this.addMouseWheelListener(new MouseWheelListener(handler));
+        this.addMouseMotionListener(new MouseMotionListener(handler));
 
-        new Window(WIDTH, HEIGHT, "test", this);
-        handler.addObject(new LineRender(new RecamanSequence()));
+        new Window(WIDTH, HEIGHT, "Sequence Simulator", this);
+        handler.addObject(new LineRender(new RecamanSequence(), 10, handler));
     }
 
+    /**
+     * Start thread
+     */
     public synchronized void start(){
         thread = new Thread(this);
         thread.start();
         running = true;
     }
 
+    /**
+     * Stop thread
+     */
     public synchronized void stop(){
         try{
             thread.join();
@@ -41,6 +66,9 @@ public class Main extends Canvas implements Runnable {
         }
     }
 
+    /**
+     * Thread loop
+     */
     @Override
     public void run() {
         long lastTime = System.nanoTime();
@@ -69,6 +97,9 @@ public class Main extends Canvas implements Runnable {
         stop();
     }
 
+    /**
+     * Renders graphics
+     */
     private void render(){
         BufferStrategy bs = this.getBufferStrategy();
         if(bs == null){
@@ -87,6 +118,9 @@ public class Main extends Canvas implements Runnable {
         bs.show();
     }
 
+    /**
+     * Clears removed objects from handler as a queue to avoid errors
+     */
     private void tick(){
         for (RenderObject removePush : handler.removePush) {
             handler.object.remove(removePush);

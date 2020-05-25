@@ -7,6 +7,13 @@ public class Window extends Canvas {
 
     int width, height;
 
+    /**
+     * Creates the window
+     * @param width Width of the window
+     * @param height Height of the window
+     * @param title Title of the window
+     * @param main Main class (Canvas)
+     */
     public Window(int width, int height, String title, Main main){
         this.width = width;
         this.height = height;

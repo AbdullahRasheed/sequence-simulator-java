@@ -2,6 +2,7 @@ package me.dedose.recaman.render;
 
 import me.dedose.recaman.Main;
 
+import java.awt.*;
 import java.awt.geom.Arc2D;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,27 +39,14 @@ public class RecamanSequence implements Sequence{
     }
 
     @Override
-    public List<Arc2D.Double> curves(int[] sequence, double bounds_x, double bounds_y) {
-        List<Arc2D.Double> curves = new ArrayList<>();
-        double totalWidth = 0;
-        double maxHeight = 0;
+    public List<Shape> curves(int[] sequence, double bounds_x, double bounds_y) {
+        List<Shape> curves = new ArrayList<>();
         for (int i = 0; i < sequence.length; i++) {
             double x = (Main.WIDTH - bounds_x)/2 + sequence[i]*50;
             double y = Main.HEIGHT/2;
             double width = (a_n_exact(i+1) - sequence[i])*50;
-            totalWidth += width;
-            double height = (i % 2 == 0 ? -Math.abs(width) : Math.abs(width));
-            maxHeight = Math.max(Math.abs(height), maxHeight);
+            double height = (i % 2 == 0 ? -Math.abs(width) : Math.abs(width)); // Alternate from down to up
             curves.add(new Arc2D.Double(width < 0 ? x + width : x, y - Math.abs(height)/2, Math.abs(width), Math.abs(height), 0, (height < 0) ? -180 : 180, Arc2D.OPEN));
-        }
-        System.out.println(totalWidth);
-
-        double xRatio = totalWidth > bounds_x ? bounds_x/totalWidth : 1;
-        for (Arc2D.Double curve : curves) {
-            curve.x *= xRatio;
-            curve.width *= xRatio;
-            curve.y *= xRatio;
-            curve.height *= xRatio;
         }
 
         return curves;
