@@ -10,30 +10,31 @@ import java.awt.*;
 
 public class LineRender extends RenderObject {
 
-    private Sequence sequence;
     private List<Shape> shapes;
     private Handler handler;
+    private Rectangle2D renderBounds;
     public LineRender(Sequence sequence, int steps, Handler handler){
-        this.sequence = sequence;
         this.shapes = sequence.curves(sequence.a_n(steps), Main.WIDTH-200, Main.HEIGHT-200);
         this.handler = handler;
+        renderBounds = new Rectangle2D.Double(
+                -handler.translateX,
+                -handler.translateY,
+                Main.WIDTH/handler.scaleFactor,
+                Main.HEIGHT/handler.scaleFactor);
     }
 
     @Override
     public void render(Graphics2D g) {
         g.setColor(Color.black);
         g.setStroke(new BasicStroke(2));
-        double scale = handler.scaleFactor;
-        Rectangle2D.Double renderBounds = new Rectangle2D.Double(
-                handler.translateX/scale,
-                handler.translateX/scale,
-                Main.WIDTH/scale,
-                Main.HEIGHT/scale);
+        renderBounds.setFrame(
+                -handler.translateX,
+                -handler.translateY,
+                Main.WIDTH/handler.scaleFactor,
+                Main.HEIGHT/handler.scaleFactor
+        );
         for (Shape arc : shapes) {
-            g.draw(arc);
-            if(arc.getBounds().intersects(renderBounds)) g.draw(arc.getBounds());
+            if(arc.getBounds().intersects(renderBounds)) g.draw(arc);
         }
-        g.draw(renderBounds);
-        System.out.println(renderBounds);
     }
 }

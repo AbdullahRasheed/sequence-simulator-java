@@ -18,7 +18,13 @@ public class MouseWheelListener implements java.awt.event.MouseWheelListener {
     @Override
     public void mouseWheelMoved(MouseWheelEvent e) {
         int scrolls = e.getWheelRotation();
-        handler.scaleFactor -= 0.05*scrolls;
-        if(handler.scaleFactor < 0.05) handler.scaleFactor = 0.05;
+        double deltaScale = 0.05*scrolls;
+        if(handler.scaleFactor > 0.05) handler.scaleFactor -= deltaScale;
+        else{
+            if(deltaScale > 0) handler.scaleFactor /= 2;
+            else handler.scaleFactor *= 2;
+        }
+        handler.translateX += deltaScale * e.getX();
+        handler.translateY += deltaScale * e.getY();
     }
 }

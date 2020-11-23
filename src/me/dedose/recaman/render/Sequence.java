@@ -14,12 +14,6 @@ public interface Sequence {
     int[] a_n(int steps);
 
     /**
-     * @param steps Independent variable of the sequence -> a(n)
-     * @return a(n)
-     */
-    int a_n_exact(int steps);
-
-    /**
      * Creates the shapes used to display the sequence
      * @param sequence array of numbers in order of the sequence, a_n(steps)
      * @param bounds_x Width of the display bounds

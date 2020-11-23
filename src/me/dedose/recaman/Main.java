@@ -42,7 +42,7 @@ public class Main extends Canvas implements Runnable {
         this.addMouseMotionListener(new MouseMotionListener(handler));
 
         new Window(WIDTH, HEIGHT, "Sequence Simulator", this);
-        handler.addObject(new LineRender(new RecamanSequence(), 10, handler));
+        handler.addObject(new LineRender(new RecamanSequence(), 1000, handler));
     }
 
     /**
@@ -108,6 +108,8 @@ public class Main extends Canvas implements Runnable {
         }
 
         Graphics2D g = (Graphics2D) bs.getDrawGraphics();
+        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
 
         g.setColor(Color.white);
         g.fillRect(0, 0, WIDTH, HEIGHT);
