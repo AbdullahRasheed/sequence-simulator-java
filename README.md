@@ -1,3 +1,3 @@
 # sequence-simulator-java
-Simulates a sequence including: The Recaman Sequence
+Simulates integer sequences interpolated to floating-point functions
 ### Use Java 10+ for better GPU usage
